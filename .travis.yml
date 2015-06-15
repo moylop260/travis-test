@@ -1,20 +1,24 @@
 language: python
 
-build_image: vauxoo/odoo-80-image-shippable-auto
-
 python:
   - "2.7"
-
-env:
-  - VERSION="8.0" ODOO_REPO="odoo/odoo" INCLUDE="base" LINT_CHECK="0"
 
 virtualenv:
   system_site_packages: true
 
 install:
-  - git clone --single-branch --depth=1 https://github.com/vauxoo/maintainer-quality-tools.git -b master ${HOME}/maintainer-quality-tools
-  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
-  - travis_install_nightly
+  - git --git-dir=${TRAVIS_BUILD_DIR}/.git fetch origin ${TRAVIS_BRANCH} && git --git-dir=${TRAVIS_BUILD_DIR}/.git diff --name-only ${TRAVIS_BRANCH}.. >${TRAVIS_BUILD_DIR}/diff-name-only.diff
+  - cat ${TRAVIS_BUILD_DIR}/diff-name-only.diff
+  - python -c "print 'export INCLUDE=\"' + ' '.join( list( set( [fname_diff.split('/')[0] for fname_diff in open('${TRAVIS_BUILD_DIR}/diff-name-only.diff', 'r').read().strip('\n').split('\n') if '/' in fname_diff] ) )) + '\"'" >${TRAVIS_BUILD_DIR}/modules.profile
+  - cat ${TRAVIS_BUILD_DIR}/modules.profile
+  - source ${TRAVIS_BUILD_DIR}/modules.profile
+  - echo ${INCLUDE}
+  - sudo pip install pylint flake8
+  - curl https://raw.githubusercontent.com/Vauxoo/pylint-conf/master/conf/pylint_vauxoo_light.cfg -o ${HOME}/.pylint.conf
+  - curl https://raw.githubusercontent.com/Vauxoo/maintainer-quality-tools/master/travis/cfg/travis_run_flake8__init__.cfg -o ${HOME}/.flake8__init__.cfg
+  - curl https://raw.githubusercontent.com/Vauxoo/maintainer-quality-tools/master/travis/cfg/travis_run_flake8.cfg -o ${HOME}/.flake8.cfg
 
 script:
-  - travis_run_tests
+  - pylint --rcfile=${HOME}/.pylint.conf ${INCLUDE}
+  - flake8 --config=${HOME}/.flake8__init__.cfg ${INCLUDE}
+  - flake8 --config=${HOME}/.flake8.cfg ${INCLUDE}
