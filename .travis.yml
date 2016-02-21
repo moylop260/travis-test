@@ -6,9 +6,6 @@ python:
 virtualenv:
   system_site_packages: true
 
-install:
-    - wget https://raw.githubusercontent.com/OCA/maintainer-quality-tools/master/travis/travis_helpers.py -O ${TRAVIS_BUILD_DIR}/travis_helpers.py
-
 script:
-  - python -c "import travis_helpers;print travis_helpers.green('Hello world')"
-  - travis_wait python -c "import travis_helpers;print travis_helpers.green('Hello world')"
+  - python logging_test.py
+  - travis_wait python logging_test.py
