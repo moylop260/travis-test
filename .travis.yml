@@ -12,11 +12,7 @@ virtualenv:
   system_site_packages: true
 
 script:
-  - python ${TRAVIS_BUILD_DIR}/logging_test.py
-  - travis_wait python ${TRAVIS_BUILD_DIR}/logging_test.py
-  - travis_wait unbuffer python ${TRAVIS_BUILD_DIR}/logging_test.py
-
-  - python ${TRAVIS_BUILD_DIR}/subprocess_call_test.py
-  - travis_wait python ${TRAVIS_BUILD_DIR}/subprocess_call_test.py
-  - travis_wait unbuffer python ${TRAVIS_BUILD_DIR}/subprocess_call_test.py
+  - echo "normal color" && python ${TRAVIS_BUILD_DIR}/logging_test.py
+  - echo "travis_wait color" && travis_wait python ${TRAVIS_BUILD_DIR}/logging_test.py
+  - echo "travis_wait unbuffer color" && travis_wait unbuffer python ${TRAVIS_BUILD_DIR}/logging_test.py
 
