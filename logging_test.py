@@ -88,40 +88,8 @@ def init_logger(syslog=None, logfile=None):
     # create a format for log messages and dates
     format = '%(asctime)s %(pid)s %(levelname)s %(dbname)s %(name)s: %(message)s'
 
-    if False:
-        pass
-    # if syslog:
-    #     # SysLog Handler
-    #     if os.name == 'nt':
-    #         handler = logging.handlers.NTEventLogHandler("%s %s" % (release.description, release.version))
-    #     elif platform.system() == 'Darwin':
-    #         handler = logging.handlers.SysLogHandler('/var/run/log')
-    #     else:
-    #         handler = logging.handlers.SysLogHandler('/dev/log')
-    #     format = '%s %s' % (release.description, release.version) \
-    #             + ':%(dbname)s:%(levelname)s:%(name)s:%(message)s'
-
-    # elif logfile:
-    #     # LogFile Handler
-    #     logf = logfile
-    #     try:
-    #         # We check we have the right location for the log files
-    #         dirname = os.path.dirname(logf)
-    #         if dirname and not os.path.isdir(dirname):
-    #             os.makedirs(dirname)
-    #         if tools.config['logrotate'] is not False:
-    #             handler = logging.handlers.TimedRotatingFileHandler(filename=logf, when='D', interval=1, backupCount=30)
-    #         elif os.name == 'posix':
-    #             handler = logging.handlers.WatchedFileHandler(logf)
-    #         else:
-    #             handler = logging.FileHandler(logf)
-    #     except Exception:
-    #         sys.stderr.write("ERROR: couldn't create the logfile directory. Logging to the standard output.\n")
-    #         handler = logging.StreamHandler(sys.stdout)
-
-    else:
-        # Normal Handler on standard output
-        handler = logging.StreamHandler(sys.stdout)
+    # Normal Handler on standard output
+    handler = logging.StreamHandler(sys.stdout)
 
     # Check that handler.stream has a fileno() method: when running OpenERP
     # behind Apache with mod_wsgi, handler.stream will have type mod_wsgi.Log,
@@ -138,24 +106,9 @@ def init_logger(syslog=None, logfile=None):
 
     logging.getLogger().addHandler(handler)
 
-    # if tools.config['log_db']:
-    #     db_levels = {
-    #         'debug': logging.DEBUG,
-    #         'info': logging.INFO,
-    #         'warning': logging.WARNING,
-    #         'error': logging.ERROR,
-    #         'critical': logging.CRITICAL,
-    #     }
-    #     postgresqlHandler = PostgreSQLHandler()
-    #     postgresqlHandler.setLevel(int(db_levels.get(tools.config['log_db_level'], tools.config['log_db_level'])))
-    #     logging.getLogger().addHandler(postgresqlHandler)
-
     # Configure loggers levels
-    # log_level='debug_rpc_answer'
     log_level='info'
     pseudo_config = PSEUDOCONFIG_MAPPER.get(log_level, [])
-
-    # logconfig = ''  # tools.config['log_handler']
 
     logging_configurations = DEFAULT_LOG_CONFIGURATION + pseudo_config # + logconfig
     for logconfig_item in logging_configurations:
