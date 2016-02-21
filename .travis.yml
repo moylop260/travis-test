@@ -7,5 +7,5 @@ virtualenv:
   system_site_packages: true
 
 script:
-  - python helpers_test.py
-  - travis_wait python helpers_test.py
+  - python ${TRAVIS_BUILD_DIR}/helpers_test.py
+  - travis_wait ${TRAVIS_BUILD_DIR}/python helpers_test.py
