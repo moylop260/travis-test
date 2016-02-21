@@ -8,4 +8,4 @@ virtualenv:
 
 script:
   - python ${TRAVIS_BUILD_DIR}/helpers_test.py
-  - travis_wait ${TRAVIS_BUILD_DIR}/python helpers_test.py
+  - travis_wait python ${TRAVIS_BUILD_DIR}/helpers_test.py
