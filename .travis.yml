@@ -3,13 +3,20 @@ language: python
 python:
   - "2.7"
 
+addons:
+  apt:
+    packages:
+      - expect-dev  # provides unbuffer utility
+
 virtualenv:
   system_site_packages: true
 
 script:
   - python ${TRAVIS_BUILD_DIR}/logging_test.py
   - travis_wait python ${TRAVIS_BUILD_DIR}/logging_test.py
+  - travis_wait unbuffer python ${TRAVIS_BUILD_DIR}/logging_test.py
 
   - python ${TRAVIS_BUILD_DIR}/subprocess_call_test.py
   - travis_wait python ${TRAVIS_BUILD_DIR}/subprocess_call_test.py
+  - travis_wait unbuffer python ${TRAVIS_BUILD_DIR}/subprocess_call_test.py
 

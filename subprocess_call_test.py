@@ -1,4 +1,4 @@
 import subprocess
 
-subprocess.call(["python", "logging_test.py"])
+subprocess.check_call(["python", "logging_test.py"])
 
