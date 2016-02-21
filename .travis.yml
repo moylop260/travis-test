@@ -1,23 +1,14 @@
 language: python
 
-build_image: vauxoo/odoo-80-image-shippable-auto
-
 python:
   - "2.7"
-
-env:
-  - VERSION="8.0" ODOO_REPO="odoo/odoo" INCLUDE="base" LINT_CHECK="0"
 
 virtualenv:
   system_site_packages: true
 
 install:
-  - git clone --single-branch --depth=1 https://github.com/vauxoo/maintainer-quality-tools.git -b master ${HOME}/maintainer-quality-tools
-  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
-  - travis_install_nightly
+    - wget https://raw.githubusercontent.com/OCA/maintainer-quality-tools/master/travis/travis_helpers.py -O ${TRAVIS_BUILD_DIR}/travis_helpers.py
 
 script:
-  - travis_run_tests
-
-# recent change
-# other change
+  - python -c "import travis_helpers;print travis_helpers.green('Hello world')"
+  - travis_wait python -c "import travis_helpers;print travis_helpers.green('Hello world')"
