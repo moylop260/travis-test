@@ -12,10 +12,10 @@ virtualenv:
   system_site_packages: true
 
 before_install:
-  - echo "# borrar" >> /etc/postgresql/9.1/main/postgresql.conf
-  - echo "# borrar" >> /etc/postgresql/9.2/main/postgresql.conf
-  - echo "# borrar" >> /etc/postgresql/9.3/main/postgresql.conf
-  - echo "# borrar" >> /etc/postgresql/9.4/main/postgresql.conf
+  - sudo echo "# borrar" >> /etc/postgresql/9.1/main/postgresql.conf
+  - sudo echo "# borrar" >> /etc/postgresql/9.2/main/postgresql.conf
+  - sudo echo "# borrar" >> /etc/postgresql/9.3/main/postgresql.conf
+  - sudo echo "# borrar" >> /etc/postgresql/9.4/main/postgresql.conf
   - cat /etc/postgresql/*/main/postgresql.conf
 
 install:
