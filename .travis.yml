@@ -1,19 +1,18 @@
 language: python
 
-build_image: vauxoo/odoo-80-image-shippable-auto
-
 python:
-  - "2.7"
+  - "3.5"
+
+addons:
+  postgresql: "9.4"
 
 env:
   - VERSION="8.0" ODOO_REPO="odoo/odoo" INCLUDE="base" LINT_CHECK="0"
 
-virtualenv:
-  system_site_packages: true
-
 before_install:
   - echo "# borrar" | sudo tee -a /etc/postgresql/9.*/main/postgresql.conf
   - cat /etc/postgresql/*/main/postgresql.conf | grep borrar
+  - psql postgres -c "SELECT version();" -U postgres
 
 install:
   - env
