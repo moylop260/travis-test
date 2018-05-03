@@ -4,15 +4,15 @@ python:
   - "3.5"
 
 addons:
-  postgresql: "9.5"
+  postgresql: "9.6"
 
 env:
   - VERSION="8.0" ODOO_REPO="odoo/odoo" INCLUDE="base" LINT_CHECK="0"
 
 before_install:
+  - psql postgres -c "SELECT version();" -U postgres
   - echo "# borrar" | sudo tee -a /etc/postgresql/9.*/main/postgresql.conf
   - cat /etc/postgresql/*/main/postgresql.conf | grep borrar
-  - psql postgres -c "SELECT version();" -U postgres
 
 install:
   - env
